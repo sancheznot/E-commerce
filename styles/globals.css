@@ -38,6 +38,10 @@ table.basic a {
 table.basic tbody tr td.btns {
   @apply w-44 ;
 }
+img.imgUpload{
+  @apply rounded-md w-24 object-cover max-h-full;
+
+}
 
 /* :root {
   --foreground-rgb: 0, 0, 0;

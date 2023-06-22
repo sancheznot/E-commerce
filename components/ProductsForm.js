@@ -2,6 +2,8 @@ import React from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import Spinners from "@/components/Spinners";
+import { ReactSortable } from "react-sortablejs";
 
 const ProductsForm = ({
   _id,
@@ -13,17 +15,18 @@ const ProductsForm = ({
   const [productName, setProductName] = useState(existingTitle || "");
   const [description, setDescription] = useState(existingDescription || "");
   const [price, setPrice] = useState(existingPrice || "");
-  const [images, setImages] = useState(existingImages || []); 
+  const [imagesUpload, setImages] = useState(existingImages || []);
   const [goToProducts, setgoToProducts] = useState(false);
+  const [loading, setLoading] = useState(false);
   const Router = useRouter();
   const { pathname } = Router;
   const SaveProduct = async (e) => {
     e.preventDefault();
-    const data = { productName, description, price };
+    const data = { productName, description, price, images: imagesUpload };
 
     if (_id) {
       // update
-      await axios.put(`/api/products`, { ...data, _id: _id });
+      await axios.put("/api/products", { ...data, _id });
     } else {
       // create
       await axios.post("/api/products", data);
@@ -36,17 +39,21 @@ const ProductsForm = ({
   const upLoadImages = async (e) => {
     const files = e.target.files;
     if (files.length > 0) {
+      setLoading(true);
       const data = new FormData();
       for (const file of files) {
         data.append("images", file, file.name);
-      } 
+      }
       const res = await axios.post("/api/upload", data);
-      setImages(oldImages => {
+      setImages((oldImages) => {
         return [...oldImages, ...res.data.links];
       });
-      console.log(res.data)
+      setLoading(false);
     }
   };
+  const updateImageOrder = (newImages) => {
+    setImages(newImages);
+  }
   return (
     <form onSubmit={SaveProduct}>
       <label htmlFor="productName">Product Name</label>
@@ -68,7 +75,21 @@ const ProductsForm = ({
         onChange={(e) => setDescription(e.target.value)}
       />
       <label htmlFor="images">Photos</label>
-      <div className="">
+
+      <div className="mb-2 flex flex-wrap gap-2">
+        <ReactSortable list={imagesUpload} className="mb-2 flex flex-wrap gap-2" setList={updateImageOrder}>
+          {!!imagesUpload?.length &&
+            imagesUpload.map((link) => (
+              <div className="h-24" key={link}>
+                <img src={link} alt="images" className="imgUpload" />
+              </div>
+            ))}
+        </ReactSortable>
+        {loading && (
+          <div className="w-32 h-24 p-3 flex items-center">
+            <Spinners />
+          </div>
+        )}
         <label className="w-24 h-24 flex flex-col-reverse text-gray-500 text-sm items-center justify-center rounded-lg bg-slate-200 cursor-pointer">
           Upload
           <svg
@@ -92,7 +113,7 @@ const ProductsForm = ({
             onChange={upLoadImages}
           />
         </label>
-        {!images?.length && (
+        {!imagesUpload?.length && (
           <p className="text-sm text-gray-500 py-2">No images uploaded</p>
         )}
       </div>
