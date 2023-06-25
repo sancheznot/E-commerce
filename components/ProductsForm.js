@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -11,19 +11,31 @@ const ProductsForm = ({
   description: existingDescription,
   price: existingPrice,
   images: existingImages,
+  category: existingCategory,
 }) => {
   const [productName, setProductName] = useState(existingTitle || "");
   const [description, setDescription] = useState(existingDescription || "");
   const [price, setPrice] = useState(existingPrice || "");
+  const [category, setCategory] = useState(existingCategory || "");
   const [imagesUpload, setImages] = useState(existingImages || []);
   const [goToProducts, setgoToProducts] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [categories, setCategories] = useState([]);
   const Router = useRouter();
   const { pathname } = Router;
+
+  useEffect(() => {
+    axios.get("/api/categories").then((res) => {
+      setCategories(res.data.data);
+    });
+  }, []);
+
   const SaveProduct = async (e) => {
     e.preventDefault();
-    const data = { productName, description, price, images: imagesUpload };
-
+    const data = { productName, description, price, images: imagesUpload, category };
+    if(category === "") {
+      data.category = null;
+    }
     if (_id) {
       // update
       await axios.put("/api/products", { ...data, _id });
@@ -32,6 +44,7 @@ const ProductsForm = ({
       await axios.post("/api/products", data);
     }
     setgoToProducts(true);
+    console.log(category)
   };
   if (goToProducts) {
     Router.push("/Products");
@@ -53,7 +66,7 @@ const ProductsForm = ({
   };
   const updateImageOrder = (newImages) => {
     setImages(newImages);
-  }
+  };
   return (
     <form onSubmit={SaveProduct}>
       <label htmlFor="productName">Product Name</label>
@@ -74,10 +87,26 @@ const ProductsForm = ({
         value={description}
         onChange={(e) => setDescription(e.target.value)}
       />
+      <div className="flex flex-col p-2 w-60 rounded-lg">
+        <label htmlFor="category">Category</label>
+        <select name="category" id="" className="p-2 rounded-lg text-gray-500 bg-white border-2 hover:border-blue-600 " value={category} onChange={e => setCategory(e.target.value)}>
+          <option value="">Select Category</option>
+          {categories.length > 0 &&
+            categories.map((category) => {
+              return (
+                <option key={category._id} value={category._id}>
+                  {category.name}
+                </option>
+              );
+            })}
+        </select>
+      </div>
       <label htmlFor="images">Photos</label>
-
       <div className="mb-2 flex flex-wrap gap-2">
-        <ReactSortable list={imagesUpload} className="mb-2 flex flex-wrap gap-2" setList={updateImageOrder}>
+        <ReactSortable
+          list={imagesUpload}
+          className="mb-2 flex flex-wrap gap-2"
+          setList={updateImageOrder}>
           {!!imagesUpload?.length &&
             imagesUpload.map((link) => (
               <div className="h-24" key={link}>
