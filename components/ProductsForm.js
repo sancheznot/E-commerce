@@ -12,11 +12,13 @@ const ProductsForm = ({
   price: existingPrice,
   images: existingImages,
   category: existingCategory,
+  subcategory: existingSubCategory,
 }) => {
   const [productName, setProductName] = useState(existingTitle || "");
   const [description, setDescription] = useState(existingDescription || "");
   const [price, setPrice] = useState(existingPrice || "");
   const [category, setCategory] = useState(existingCategory || "");
+  const [subCategory, setSubCategory] = useState(existingSubCategory || "");
   const [imagesUpload, setImages] = useState(existingImages || []);
   const [goToProducts, setgoToProducts] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -30,11 +32,23 @@ const ProductsForm = ({
     });
   }, []);
 
+
   const SaveProduct = async (e) => {
     e.preventDefault();
-    const data = { productName, description, price, images: imagesUpload, category };
-    if(category === "") {
+    const data = {
+      productName,
+      description,
+      price,
+      images: imagesUpload,
+      category,
+      subCategory,
+    };
+    if (data.productName === "") return;
+    if (category === "" ) {
       data.category = null;
+    }
+    if(subCategory === ""){
+      data.subCategory = null;
     }
     if (_id) {
       // update
@@ -44,8 +58,8 @@ const ProductsForm = ({
       await axios.post("/api/products", data);
     }
     setgoToProducts(true);
-    console.log(category)
   };
+
   if (goToProducts) {
     Router.push("/Products");
   }
@@ -89,15 +103,44 @@ const ProductsForm = ({
       />
       <div className="flex flex-col p-2 w-60 rounded-lg">
         <label htmlFor="category">Category</label>
-        <select name="category" id="" className="p-2 rounded-lg text-gray-500 bg-white border-2 hover:border-blue-600 " value={category} onChange={e => setCategory(e.target.value)}>
+        <select
+          name="category"
+          id=""
+          className="p-2 rounded-lg text-gray-500 bg-white border-2 hover:border-blue-600 "
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}>
           <option value="">Select Category</option>
           {categories.length > 0 &&
             categories.map((category) => {
-              return (
-                <option key={category._id} value={category._id}>
-                  {category.name}
-                </option>
-              );
+              if (!category.parent) {
+                return (
+                  <option key={category._id} value={category._id}>
+                    {category.name}
+                  </option>
+                );
+              }
+            })}
+        </select>
+      </div>
+      <div className="flex flex-col p-2 w-60 rounded-lg">
+        <label htmlFor="subcategory">Sub Category</label>
+        <select
+          name="subcategory"
+          id=""
+          className="p-2 rounded-lg text-gray-500 bg-white border-2 hover:border-blue-600 "
+          value={subCategory}
+          onChange={(e) => setSubCategory(e.target.value)}>
+          <option value="">Select sub Category</option>
+          {categories.length > 0 &&
+            categories.map((categorys) => {
+              const parent = categorys.parent?._id;
+              if (category === parent) {
+                return (
+                  <option key={categorys._id} value={categorys._id}>
+                    {categorys.name}
+                  </option>
+                );
+              }
             })}
         </select>
       </div>
