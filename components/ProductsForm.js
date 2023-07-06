@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import Spinners from "@/components/Spinners";
 import { ReactSortable } from "react-sortablejs";
+import { set } from "mongoose";
 
 const ProductsForm = ({
   _id,
@@ -13,14 +14,17 @@ const ProductsForm = ({
   images: existingImages,
   category: existingCategory,
   subcategory: existingSubCategory,
+  isChecked: existingIsChecked,
 }) => {
   const [productName, setProductName] = useState(existingTitle || "");
   const [description, setDescription] = useState(existingDescription || "");
   const [price, setPrice] = useState(existingPrice || "");
   const [category, setCategory] = useState(existingCategory || "");
   const [subCategory, setSubCategory] = useState(existingSubCategory || "");
+  const [isChecked, setIsChecked] = useState(existingIsChecked || false);
   const [imagesUpload, setImages] = useState(existingImages || []);
   const [goToProducts, setgoToProducts] = useState(false);
+  const [savecheckProperty, setsaveCheckProperty] = useState([]);
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
   const Router = useRouter();
@@ -32,6 +36,16 @@ const ProductsForm = ({
     });
   }, []);
 
+  const propertiesToFill = [];
+  if (categories.length > 0) {
+    categories.map((categorys) => {
+      if (categorys.parent?._id && categorys._id === subCategory) {
+        categorys.properties.map((property) => {
+          propertiesToFill.push(property);
+        });
+      }
+    });
+  }
 
   const SaveProduct = async (e) => {
     e.preventDefault();
@@ -44,10 +58,10 @@ const ProductsForm = ({
       subCategory,
     };
     if (data.productName === "") return;
-    if (category === "" ) {
+    if (category === "") {
       data.category = null;
     }
-    if(subCategory === ""){
+    if (subCategory === "") {
       data.subCategory = null;
     }
     if (_id) {
@@ -58,8 +72,8 @@ const ProductsForm = ({
       await axios.post("/api/products", data);
     }
     setgoToProducts(true);
+    console.log(savecheckProperty);
   };
-
   if (goToProducts) {
     Router.push("/Products");
   }
@@ -81,6 +95,20 @@ const ProductsForm = ({
   const updateImageOrder = (newImages) => {
     setImages(newImages);
   };
+
+  const savePropertyProduct = (value) => {
+    const {checked, id, name} = value.target;
+    if(checked){
+      const data = [{name:id,checked, propertyParent:name}]
+      setsaveCheckProperty([...savecheckProperty, ...data]);
+    }else if(checked === false){
+       savecheckProperty.pop(
+        savecheckProperty.find((item) => item.name === id)
+      )
+    }
+  }
+console.log(savecheckProperty)
+
   return (
     <form onSubmit={SaveProduct}>
       <label htmlFor="productName">Product Name</label>
@@ -143,6 +171,57 @@ const ProductsForm = ({
               }
             })}
         </select>
+      </div>
+      <div className="flex flex-col p-2 rounded-lg">
+        <label htmlFor="Properties">Properties</label>
+        {propertiesToFill.length > 0 &&
+          categories.map((categorys) => {
+            if (
+              categorys._id === subCategory &&
+              categorys.parent?._id === category
+            ) {
+              return (
+                <div
+                  className="flex flex-row p-1 w-full rounded-lg justify-around flex-wrap"
+                  key={categorys._id}>
+                  {propertiesToFill.map((property) => {
+                    return (
+                      <div
+                        className="flex flex-col p-2 ml-3 rounded-lg justify-center bg-white border-2 hover:border-blue-600"
+                        key={property.name}>
+                        <label htmlFor="Properties" className="mr-4">
+                          {property.name}:
+                        </label>
+                        <div className="flex flex-row justify-center items-center">
+                          {property.values.map((value) => {
+                            return (
+                              <>
+                                
+                                <input
+                                  className="ml-2 mr-3 p-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                  type="checkbox"
+                                  id={value}
+                                  value={value}
+                                  name={property.name}
+                                  checked={property.checked}
+                                  onChange={(e) => savePropertyProduct(e)}
+                                />
+                                <label
+                                  htmlFor={value}
+                                  className=" text-lg font-medium text-gray-900 dark:text-gray-300">
+                                  {value}
+                                </label>
+                              </>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            }
+          })}
       </div>
       <label htmlFor="images">Photos</label>
       <div className="mb-2 flex flex-wrap gap-2">
