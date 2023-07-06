@@ -11,18 +11,19 @@ export default async function handle(req, res) {
   }
 
   if (method === "POST") {
-    const { name, parentCategories } = req.body;
+    const { name, parentCategories, properties } = req.body;
     const category = await Categories.create({
       name,
       parent: parentCategories,
+      properties,
     });
     res.status(200).json({ success: true, data: category });
   }
   if (method === "PUT") {
-    const { name, parentCategories, _id } = req.body;
+    const { name, parentCategories, properties, _id } = req.body;
     const CategoryRes = await Categories.updateOne(
       { _id },
-      { name, parent: parentCategories }
+      { name, parent: parentCategories, properties }
     );
     res.status(200).json({ success: true, data: CategoryRes });
   }
