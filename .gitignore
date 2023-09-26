@@ -26,7 +26,8 @@ yarn-error.log*
 
 # local env files
 .env*.local
-
+E-commerce-front/.env
+E-commerce-Back/.env
 # vercel
 .vercel
 
