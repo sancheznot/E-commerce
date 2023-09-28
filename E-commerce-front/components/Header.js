@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useRouter } from "next/router";
 import { CartContext } from "./CartContext";
 
@@ -12,13 +12,16 @@ const NavStyle =
   "flex justify-between items-center px-4 py-2 w-6/12 lg:w-8/12 md:hidden";
 const NavStyleDron =
   "flex justify-end items-center px-4 py-2 w-full lgg:hidden";
-const LinkSellerStyle = " text-decoration-none text-black px-4 py-2 hover:bg-gray-700 font-extrabold hover:text-white rounded transition duration-300 ease-in-out text-sm uppercase tracking-wid bg-gray-300 text-black font-think";
+const LinkSellerStyle =
+  " text-decoration-none text-black px-4 py-2 hover:bg-gray-700 font-extrabold hover:text-white rounded transition duration-300 ease-in-out text-sm uppercase tracking-wid bg-gray-300 text-black font-think";
 
 const Header = () => {
   const router = useRouter();
   const { pathname } = router;
 
   const { productsInCart } = useContext(CartContext);
+
+  useEffect(() => {}, [productsInCart]);
 
   return (
     <header className={`${HeaderStyle}`}>
@@ -28,19 +31,27 @@ const Header = () => {
       <nav className={`${NavStyle}`}>
         <Link
           href="/"
-          className={pathname === "/" ? LinkSellerStyle  : LinksStyle}>
+          className={pathname === "/" ? LinkSellerStyle : LinksStyle}>
           Home
         </Link>
-        <Link href="/products" className={pathname === "/products" ? LinkSellerStyle : LinksStyle}>
+        <Link
+          href="/products"
+          className={pathname === "/products" ? LinkSellerStyle : LinksStyle}>
           All products
         </Link>
-        <Link href="/categories" className={pathname === "/categories" ? LinkSellerStyle : LinksStyle}>
+        <Link
+          href="/categories"
+          className={pathname === "/categories" ? LinkSellerStyle : LinksStyle}>
           Categories
         </Link>
-        <Link href="/account" className={pathname === "/account" ? LinkSellerStyle : LinksStyle}>
+        <Link
+          href="/account"
+          className={pathname === "/account" ? LinkSellerStyle : LinksStyle}>
           Account
         </Link>
-        <Link href="/cart" className={pathname === "/cart" ? LinkSellerStyle : LinksStyle}>
+        <Link
+          href="/cart"
+          className={pathname === "/cart" ? LinkSellerStyle : LinksStyle}>
           Cart ({productsInCart.length})
         </Link>
       </nav>

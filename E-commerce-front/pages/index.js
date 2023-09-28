@@ -12,6 +12,7 @@ export default function index({
   productsCategories,
   subcategories,
   newProducts,
+ 
 }) {
   return (
     <>
@@ -22,7 +23,7 @@ export default function index({
           productsCategories={productsCategories}
           subcategories={subcategories}
         />
-        <NewProducts newProducts={newProducts} />
+        <NewProducts newProducts={newProducts} products={products} />
         <Footer />
       </div>
     </>

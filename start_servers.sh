@@ -7,6 +7,6 @@ cd ./E-commerce-Back/
 npm run dev &
 
 # * Start the server front-end
-cd ../E-commerce-front/
 echo "Startin the server front-end ..."
+cd ../E-commerce-front/
 npm run dev

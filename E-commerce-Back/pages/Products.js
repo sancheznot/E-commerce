@@ -5,7 +5,6 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
-
 const Products = () => {
   const { data: session } = useSession();
   const [products, setProducts] = useState([]);
@@ -14,7 +13,7 @@ const Products = () => {
       setProducts(response.data.data);
     });
   }, []);
- 
+
   return (
     <Layout>
       <div className="flex justify-between">
@@ -28,7 +27,7 @@ const Products = () => {
         </div>
       </div>
       <div className="tableProducts">
-        <table className="basic mt-2" >
+        <table className="basic mt-2">
           <thead>
             <tr className="rounded-xl">
               <th>Product Name</th>
@@ -37,18 +36,30 @@ const Products = () => {
               <th>Option</th>
             </tr>
           </thead>
-          <tbody >
+          <tbody>
             {products.map((products) => {
               return (
-                <tr key={products._id} >
-                  <td className="shadow-sm shadow-black drop-shadow-lg rounded-md">{products.name}</td>
-                  <td className="shadow-sm shadow-black drop-shadow-lg rounded-md">{products.description}</td>
-                  <td className="shadow-sm shadow-black drop-shadow-lg rounded-md">{products.price}</td>
+                <tr key={products._id}>
+                  <td className="shadow-sm shadow-black drop-shadow-lg rounded-md">
+                    {products.name}
+                  </td>
+                  <td className="shadow-sm shadow-black drop-shadow-lg rounded-md">
+                    {/* {products.description} */}
+                    <div className="w-96 xs:w-32 h-16 overflow-hidden">
+                      <p className="text-gray-500 text-lg truncate overflow-ellipsis">
+                        {products.description}
+                      </p>
+                    </div>
+                  </td>
+                  <td className="shadow-sm shadow-black drop-shadow-lg rounded-md">
+                    {products.price}
+                  </td>
                   <td className="btns shadow-sm shadow-black drop-shadow-lg">
                     <Link href={`/products/edit/${products._id}`}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        fill="none"inner
+                        fill="none"
+                        inner
                         viewBox="0 0 24 24"
                         strokeWidth={1.5}
                         stroke="currentColor"
