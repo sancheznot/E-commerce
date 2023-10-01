@@ -2,12 +2,11 @@ import { CartContext } from "@/components/CartContext";
 import Center from "@/components/Center";
 import Header from "@/components/Header";
 import axios from "axios";
-import { set } from "mongoose";
 import Image from "next/image";
 import React, { useContext, useEffect, useState } from "react";
 
 export const Cart = () => {
-  const { productsInCart, addProductToCart, removeProductFromCart } =
+  const { productsInCart, addProductToCart, removeProductFromCart, clearCart } =
     useContext(CartContext);
   const [products, setProducts] = useState([]);
   const [name, setName] = useState("");
@@ -71,8 +70,13 @@ export const Cart = () => {
       window.location.href = res.data.url;
     }
   };
+  useEffect(() => {
+    if (window.location.search.includes("success")) {
+      clearCart();
+    }
+  }, [clearCart]);
+
   if (hasWindowLoaded) {
-   
     if (window.location.search.includes("success")) {
       return (
         <>

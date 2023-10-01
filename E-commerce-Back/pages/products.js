@@ -16,21 +16,22 @@ const Products = () => {
 
   return (
     <Layout>
-      <div className="flex justify-between">
-        <Link
-          href={"/products/new"}
-          className="bg-gray-300 text-black p-3 px-2 rounded-md">
-          Add Product
-        </Link>
-        <div className="flex flex-row-reverse justify-center items-center  bg-gray-500 rounded-3xl ">
-          <ProfilePic session={session} />
+      <div className="flex flex-col shadow-xl shadow-gray-400 bg-gray-200 rounded-2xl w-10/12 m-auto justify-center p-5 my-16">
+        <div className="flex justify-between items-center p-4">
+          <Link
+            href={"/products/new"}
+            className="bg-gray-300 text-black p-3 px-2 rounded-md hover:bg-blue-500">
+            Add Product
+          </Link>
+          <div className="flex flex-row-reverse justify-center items-center  bg-gray-500 rounded-3xl ">
+            <ProfilePic session={session} />
+          </div>
         </div>
-      </div>
-      <div className="tableProducts">
-        <table className="basic mt-2">
-          <thead>
-            <tr className="rounded-xl">
-              <th>Product Name</th>
+
+        <table className="basic border border-gray-400 bg-gray-200">
+          <thead className="border-b-1 border-gray-300">
+            <tr className="text-gray-500">
+              <th className="p-2">Product Name</th>
               <th>Description</th>
               <th>Price</th>
               <th>Option</th>

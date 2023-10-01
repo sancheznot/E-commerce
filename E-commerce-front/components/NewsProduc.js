@@ -54,7 +54,7 @@ const NewsProduc = ({ products, productsCategories, subcategories }) => {
               data-te-animation-reset="true"
               data-te-animation="[slide-right_1s_ease-in-out]"
               className="bg-blue-600 border border-gray-200 hover:bg-blue-700 rounded-sm w-full py-unit-xs text-white font-bold cursor-pointer flex flex-row justify-center items-center ">
-              <Link href={`/products/${_id}`}>Read More</Link>
+              <Link href={`/thisproduct/${_id}`}>Read More</Link>
             </button>
           </div>
           <div className="flex flex-row gap-2">

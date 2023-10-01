@@ -127,6 +127,7 @@ const Categories = ({ swal }) => {
   };
   return (
     <Layout>
+      <div className="flex flex-col shadow-xl shadow-gray-400 bg-gray-200 rounded-2xl w-11/12 m-auto justify-center p-5 my-16">
       <h1 className="text-2xl">Categories</h1>
       <label htmlFor="">
         {editcategory
@@ -355,6 +356,7 @@ const Categories = ({ swal }) => {
           </table>
         </div>
       )}
+      </div>
     </Layout>
   );
 };

@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import Spinners from "@/components/Spinners";
 import { ReactSortable } from "react-sortablejs";
+import Image from "next/image";
 
 
 const ProductsForm = ({
@@ -120,6 +121,9 @@ const ProductsForm = ({
     }
   };
 
+
+  const imgWidth = "100";
+  const imgHeight = "100";
   return (
     <form onSubmit={SaveProduct}>
       <label htmlFor="productName">Product Name</label>
@@ -244,7 +248,7 @@ const ProductsForm = ({
           {!!imagesUpload?.length &&
             imagesUpload.map((link) => (
               <div className="h-24" key={link}>
-                <img src={link} alt="images" className="imgUpload" />
+                <img src={link} alt="images" className="imgUpload" width={imgWidth} height={imgHeight}/>
               </div>
             ))}
         </ReactSortable>

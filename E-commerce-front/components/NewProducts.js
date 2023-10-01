@@ -20,8 +20,10 @@ const NewProducts = ({ newProducts, products }) => {
             {newProducts?.length > 0 &&
               newProducts.map((product) => {
                 return (
-                  <div className="grid sm:grid-cols-2 sm:place-items-center p-2 bg-white sm:w-full gap-1 h-auto max-full rounded-lg shadow-none transition-shadow duration-300 ease-in-out hover:shadow-lg hover:shadow-black/30">
-                    <Link href={`/product/${product._id}`} key={product.id}>
+                  <div
+                    key={product.id}
+                    className="grid sm:grid-cols-2 sm:place-items-center p-2 bg-white sm:w-full gap-1 h-auto max-full rounded-lg shadow-none transition-shadow duration-300 ease-in-out hover:shadow-lg hover:shadow-black/30">
+                    <Link href={`/thisproduct/${product._id}`} key={product.id}>
                       <div className="w-[150px] h-[150px]">
                         <Image
                           width={150}

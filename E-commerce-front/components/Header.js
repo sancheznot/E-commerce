@@ -35,7 +35,7 @@ const Header = () => {
           Home
         </Link>
         <Link
-          href="/products"
+          href="/allproducts"
           className={pathname === "/products" ? LinkSellerStyle : LinksStyle}>
           All products
         </Link>
