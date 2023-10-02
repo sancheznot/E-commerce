@@ -1,5 +1,6 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import Main from "@/components/Main";
 import NewProducts from "@/components/NewProducts";
 import NewsProduc from "@/components/NewsProduc";
 import { mongooseConnect } from "@/lib/mongoose";
@@ -16,15 +17,8 @@ export default function index({
 }) {
   return (
     <>
-      <div className="grid grid-cols-1 gap-5  ">
-        <Header />
-        <NewsProduc
-          products={products}
-          productsCategories={productsCategories}
-          subcategories={subcategories}
-        />
-        <NewProducts newProducts={newProducts} products={products} />
-        <Footer />
+      <div className="grid grid-cols-1 gap-5 ">
+        <Main products={products} productsCategories={productsCategories} ubcategories={subcategories}  newProducts={newProducts} />
       </div>
     </>
   );

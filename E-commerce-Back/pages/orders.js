@@ -19,7 +19,8 @@ const Orders = () => {
     updatedTableData.splice(toIndex, 0, removedItem);
     setOrders(updatedTableData);
   };
-  const cancel = "cancel";
+console.log(orders)
+
   return (
     <Layout>
       <div className="flex flex-col gap-5 mb-10 justify-center items-center">
@@ -63,10 +64,10 @@ const Orders = () => {
                   </td>
                   <td>{new Date(order.createdAt).toLocaleString()}</td>
                   <td className="">
-                    {order.status === "paid" ? (
+                    {order.status === "Complete" ? (
                       <>
                         <div className="flex flex-row gap-2 uppercase justify-center items-center text-lg">
-                          {order.status}
+                          PAID
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"

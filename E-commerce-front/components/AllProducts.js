@@ -1,13 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Layout from "./Layout";
 import axios from "axios";
 import Link from "next/link";
 import Image from "next/image";
 import Center from "./Center";
+import { CartContext } from "./CartContext";
 
 const AllProducts = () => {
   const [products, setProducts] = useState([]);
 
+  const { setProductsInCart } = useContext(CartContext);
+  const addToCart = (id) => {
+    setProductsInCart((prev) => [...prev, id]);
+  };
 
   useEffect(() => {
     const allproducts = async () => {
@@ -17,9 +22,8 @@ const AllProducts = () => {
     allproducts();
   }, []);
 
-
   return (
-    <Layout>
+   
       <>
         <Center>
           <div className="grid grid-cols-1 place-items-center auto-rows-max grid-flow-row bg-black rounded-md w-full min-h-unit-5 p-5">
@@ -88,7 +92,7 @@ const AllProducts = () => {
           </div>
         </Center>
       </>
-    </Layout>
+    
   );
 };
 

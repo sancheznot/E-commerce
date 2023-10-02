@@ -101,12 +101,14 @@ const Footer = () => {
         </div>
       </div>
 
-      <div
-        className="w-full p-4 text-center"
-        >
-        © 2023 Copyright:
-        <a className="text-whitehite" href="https://tailwind-elements.com/">
-          Tailwind Elements
+      <div className="w-full p-4 text-center">
+        <a
+          className="text-white hover:text-gray-400"
+          href="https://www.sancheznot.com"
+          target="_blank"
+          rel="noopener noreferrer">
+          {`© 2023 Copyright: `}
+          Creative sancheznot
         </a>
       </div>
     </footer>

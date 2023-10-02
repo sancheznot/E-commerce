@@ -80,7 +80,6 @@ export const Cart = () => {
     if (window.location.search.includes("success")) {
       return (
         <>
-          <Header />
           <Center>
             <div className="w-6/12 grid grid-cols-1 mt-5">
               <div className=" bg-gray-300 w-full  p-5 rounded-lg shadow-xl">
@@ -102,7 +101,6 @@ export const Cart = () => {
 
   return (
     <>
-      <Header />
       <Center>
         <div className="w-11/12 grid grid-cols-2 lg:grid-cols-none place-items-center gap-4 mt-5">
           <div className="grid grid-rows-1 place-items-center bg-gray-300 w-full gap-3 p-5 rounded-lg ">

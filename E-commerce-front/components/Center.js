@@ -1,11 +1,14 @@
 import React from "react";
+import Layout from "./Layout";
 
-const CenterStyle = "flex justify-center items-center px-4 py-2 w-full flex-wrap";
-
-
+const CenterStyle = "flex justify-start items-start px-4 py-2 w-full flex-wrap";
 
 const Center = ({ children }) => {
-  return <main className={`${CenterStyle}`}>{children}</main>;
+  return (
+    <Layout>
+      <main className={`${CenterStyle} `}>{children}</main>
+    </Layout>
+  );
 };
 
 export default Center;
