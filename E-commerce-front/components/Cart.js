@@ -81,7 +81,7 @@ export const Cart = () => {
       return (
         <>
           <Center>
-            <div className="w-6/12 grid grid-cols-1 mt-5">
+            <div className="w-full grid grid-cols-1 mt-5">
               <div className=" bg-gray-300 w-full  p-5 rounded-lg shadow-xl">
                 <div className="flex flex-col justify-center items-center bg-white rounded-lg h-unit-5xl gap-5">
                   <h3 className="text-black text-5xl font-bold">

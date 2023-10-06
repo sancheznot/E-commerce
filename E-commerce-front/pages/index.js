@@ -1,8 +1,5 @@
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
+import Div from "@/components/Div";
 import Main from "@/components/Main";
-import NewProducts from "@/components/NewProducts";
-import NewsProduc from "@/components/NewsProduc";
 import { mongooseConnect } from "@/lib/mongoose";
 import { Categories } from "@/models/Categories";
 import { Products } from "@/models/Products";
@@ -13,13 +10,19 @@ export default function index({
   productsCategories,
   subcategories,
   newProducts,
- 
 }) {
+
+  
   return (
     <>
-      <div className="grid grid-cols-1 gap-5 ">
-        <Main products={products} productsCategories={productsCategories} ubcategories={subcategories}  newProducts={newProducts} />
-      </div>
+      <Div >
+        <Main
+          products={products}
+          productsCategories={productsCategories}
+          ubcategories={subcategories}
+          newProducts={newProducts}
+        />
+      </Div>
     </>
   );
 }

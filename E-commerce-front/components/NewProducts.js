@@ -1,19 +1,23 @@
 import Center from "@/components/Center";
 import Image from "next/image";
 import Link from "next/link";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { CartContext } from "./CartContext";
 
 const NewProducts = ({ newProducts, products }) => {
+
+ 
   const { setProductsInCart } = useContext(CartContext);
   const addToCart = (id) => {
     setProductsInCart((prev) => [...prev, id]);
   };
+
+
   return (
     <>
       <div className="grid grid-cols-1  gap-1 place-items-center auto-rows-max grid-flow-row bg-black rounded-md w-full min-h-unit-5 ">
         <h2 className="text-white text-left w-full text-2xl my-4">
-          New Products
+          New Products 
         </h2>
         <div className="grid grid-cols-4 md:grid-cols-2 lg:grid-cols-3 sm:grid-cols-1 sm:w-full gap-y-3 bg-gray-300 w-11/12 rounded-xl  place-items-center mb-5 p-2 ">
           {newProducts?.length > 0 &&
